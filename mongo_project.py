@@ -32,12 +32,32 @@ def show_menu():
     print("4. Delete a record")
     print("5. Exit")
 
-    # Variable: option to be selected by user
+    # Variable: options to be selected by user
     option = input("Enter option: ")
     return option
 
 
-# Input where user can enter new record information to the database using the CRUD Menu
+# Helper function (reusable) to assist on find, update and delete functions
+def get_record():
+    print("")
+    first = input("Enter first name > ")
+    last = input("Enter last name > ")
+
+    try:
+        # Calling the lower method on first and last name which will be stored in lower case
+        doc = col.find_one({'first': first.lower(), 'last': last.lower()})
+    except:
+        print("Error accessing the database")
+
+    # In case document-object is empty
+    if not doc:
+        print("")
+        print("Error! No results found.")
+
+    return doc
+
+
+# Input where user can enter new record information to the database using the option from the CRUD Menu
 def add_record():
     print("")
     first = input ("Enter first name > ")
@@ -48,12 +68,10 @@ def add_record():
     occupation = input ("Enter occupation > ")
     nationality = input ("Enter nationality > ")
 
-
     # Dictionary (string) to be inserted into the database
     # Variable names and their keys
     # Calling the lower method on first and last name which will be stored in lower case
     new_doc = {'first': first.lower(), 'last': last.lower(), 'dob': dob, 'gender': gender, 'hair_colour': hair_colour, 'occupation': occupation, 'nationality': nationality}
-
 
     try:
         coll.insert(new_doc)
