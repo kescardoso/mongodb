@@ -37,12 +37,38 @@ def show_menu():
     return option
 
 
+# Input where user can enter new record information to the database using the CRUD Menu
+def add_record():
+    print("")
+    first = input ("Enter first name > ")
+    last = input ("Enter last name > ")
+    dob = input ("Enter date of birth > ")
+    gender = input ("Enter gender > ")
+    hair_colour = input ("Enter hair colour > ")
+    occupation = input ("Enter occupation > ")
+    nationality = input ("Enter nationality > ")
+
+
+    # Dictionary (string) to be inserted into the database
+    # Variable names and their keys
+    # Calling the lower method on first and last name which will be stored in lower case
+    new_doc = {'first': first.lower(), 'last': last.lower(), 'dob': dob, 'gender': gender, 'hair_colour': hair_colour, 'occupation': occupation, 'nationality': nationality}
+
+
+    try:
+        coll.insert(new_doc)
+        print("")
+        print("Document inserted")
+    except:
+        print("Error accessing the database")
+    
+
 # While Loop: Calls the menu each time user comes back to it
 def main_loop():
     while True:
         option = show_menu()
         if option == "1":
-            print("You have selected option 1")
+            add_record()
         elif option == "2":
             print("You have selected option 2")
         elif option == "3":
