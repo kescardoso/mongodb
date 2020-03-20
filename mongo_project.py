@@ -36,6 +36,7 @@ def show_menu():
     option = input("Enter option: ")
     return option
 
+
 # While Loop: Calls the menu each time user comes back to it
 def main_loop():
     while True:
@@ -55,6 +56,7 @@ def main_loop():
             print("Invalid option")
         print("")
 
+
 # Create and call connection function and collection object
 # Call function
 conn = mongo_connect(MONGODB_URI)
@@ -62,6 +64,7 @@ conn = mongo_connect(MONGODB_URI)
 
 # Collection name
 coll = conn[DBS_NAME][COLLECTION_NAME]
+
 
 # Call continuing loop
 main_loop()
