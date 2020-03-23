@@ -21,6 +21,27 @@ def mongo_connect(url):
         print("Could not connect to MongoDB: %s") % e
 
 
+# Helper function (reusable) to assist on find, update and delete functions
+def get_record():
+    print("")
+    first = input("Enter first name > ")
+    last = input("Enter last name > ")
+
+    try:
+        # Calling the lower method on first and last name
+        # which will be stored in lower case
+        doc = coll.find_one({'first': first.lower(), 'last': last.lower()})
+    except:
+        print("Error accessing the database")
+
+    # In case document-object is empty
+    if not doc:
+        print("")
+        print("Error! No results found.")
+    
+    return doc
+
+
 # Create CRUD Menu
 def show_menu():
     # Blank line for space
@@ -37,27 +58,8 @@ def show_menu():
     return option
 
 
-# Helper function (reusable) to assist on find, update and delete functions
-def get_record():
-    print("")
-    first = input("Enter first name > ")
-    last = input("Enter last name > ")
-
-    try:
-        # Calling the lower method on first and last name which will be stored in lower case
-        doc = col.find_one({'first': first.lower(), 'last': last.lower()})
-    except:
-        print("Error accessing the database")
-
-    # In case document-object is empty
-    if not doc:
-        print("")
-        print("Error! No results found.")
-
-    return doc
-
-
-# Input where user can enter new record information to the database using the option from the CRUD Menu
+# Input where user can enter new record information to the database
+# using the option from the CRUD Menu
 def add_record():
     print("")
     first = input ("Enter first name > ")
@@ -70,7 +72,7 @@ def add_record():
 
     # Dictionary (string) to be inserted into the database
     # Variable names and their keys
-    # Calling the lower method on first and last name which will be stored in lower case
+    # Calling the lower method on first and last name
     new_doc = {'first': first.lower(), 'last': last.lower(), 'dob': dob, 'gender': gender, 'hair_colour': hair_colour, 'occupation': occupation, 'nationality': nationality}
 
     try:
@@ -79,7 +81,18 @@ def add_record():
         print("Document inserted")
     except:
         print("Error accessing the database")
-    
+
+
+# Find function
+def find_record():
+    doc = get_record()
+    if doc:
+        print("")
+        # k = keys , v = values
+        for k,v in doc.items():
+            if k!= "_id":
+                print(k.capitalize() + ":  " + v.capitalize())
+
 
 # While Loop: Calls the menu each time user comes back to it
 def main_loop():
@@ -88,7 +101,7 @@ def main_loop():
         if option == "1":
             add_record()
         elif option == "2":
-            print("You have selected option 2")
+            find_record()
         elif option == "3":
             print("You have selected option 3")
         elif option == "4":
